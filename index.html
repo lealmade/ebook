@@ -21,37 +21,17 @@
     
     <style>
         /* ===== RESET & BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             font-family: 'Inter', sans-serif;
             color: #1a1a2e;
             background: #ffffff;
             line-height: 1.6;
         }
-        
-        h1, h2, h3, h4, h5 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-        }
-        
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        img {
-            max-width: 100%;
-            display: block;
-        }
+        h1, h2, h3, h4, h5 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; display: block; }
         
         .container {
             max-width: 1200px;
@@ -65,7 +45,6 @@
             --navy-light: #1a2a44;
             --gold: #c9a84c;
             --gold-light: #e8d5a3;
-            --gold-glow: #f0e0b8;
             --white: #ffffff;
             --gray-light: #f7f8fa;
             --gray-mid: #e8eaed;
@@ -79,99 +58,140 @@
             --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
-        /* ===== BOTONES ===== */
+        /* =========================================================
+           BOTONES CON EFECTO LLAMATIVO (CTA)
+           ========================================================= */
+        
+        /* Animación de pulso dorado */
+        @keyframes pulse-gold {
+            0%   { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.70), 0 6px 25px rgba(201, 168, 76, 0.40); }
+            70%  { box-shadow: 0 0 0 18px rgba(201, 168, 76, 0), 0 6px 25px rgba(201, 168, 76, 0.40); }
+            100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0), 0 6px 25px rgba(201, 168, 76, 0.40); }
+        }
+        
+        /* Animación de brillo deslizante (shimmer) */
+        @keyframes shimmer {
+            0%   { left: -100%; }
+            100% { left: 200%; }
+        }
+        
+        /* Animación de "respiración" (escala sutil) */
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.045); }
+        }
+        
         .btn-primary {
+            position: relative;
             display: inline-block;
-            background: var(--gold);
+            background: linear-gradient(135deg, #dbb95a 0%, #c9a84c 50%, #b8952f 100%);
             color: var(--navy);
             font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 1rem;
-            padding: 14px 36px;
+            padding: 16px 42px;
             border-radius: 50px;
             border: none;
             cursor: pointer;
-            transition: var(--transition);
             text-align: center;
-            letter-spacing: 0.3px;
-            box-shadow: 0 4px 20px rgba(201, 168, 76, 0.35);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            overflow: hidden;
+            transition: var(--transition);
+            animation: pulse-gold 2.2s infinite, breathe 3s ease-in-out infinite;
+            z-index: 1;
+        }
+        
+        /* Brillo deslizante */
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.75) 50%,
+                transparent 100%
+            );
+            transform: skewX(-25deg);
+            animation: shimmer 3s infinite;
+            z-index: 2;
+            pointer-events: none;
         }
         
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(201, 168, 76, 0.50);
-            background: #dbb95a;
+            transform: translateY(-4px) scale(1.06);
+            background: linear-gradient(135deg, #f0d878 0%, #dbb95a 50%, #c9a84c 100%);
+            box-shadow: 0 0 0 8px rgba(201, 168, 76, 0.20),
+                        0 14px 40px rgba(201, 168, 76, 0.65);
+            animation-play-state: paused;
         }
         
+        .btn-primary:active {
+            transform: translateY(-2px) scale(0.98);
+            box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.30),
+                        0 6px 20px rgba(201, 168, 76, 0.50);
+        }
+        
+        /* Botón secundario (outline dorado) también llamativo */
         .btn-secondary {
+            position: relative;
             display: inline-block;
             background: transparent;
             color: var(--white);
             font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
+            font-weight: 800;
             font-size: 1rem;
-            padding: 14px 36px;
+            padding: 16px 42px;
             border-radius: 50px;
             border: 2px solid var(--gold);
             cursor: pointer;
-            transition: var(--transition);
             text-align: center;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            overflow: hidden;
+            transition: var(--transition);
+            animation: breathe 3s ease-in-out infinite;
+        }
+        
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent 0%,
+                rgba(201, 168, 76, 0.45) 50%,
+                transparent 100%
+            );
+            transform: skewX(-25deg);
+            animation: shimmer 3.5s infinite;
+            pointer-events: none;
         }
         
         .btn-secondary:hover {
             background: var(--gold);
             color: var(--navy);
-            transform: translateY(-3px);
+            transform: translateY(-4px) scale(1.06);
+            box-shadow: 0 0 0 8px rgba(201, 168, 76, 0.20),
+                        0 14px 40px rgba(201, 168, 76, 0.55);
+            animation-play-state: paused;
         }
         
-        .btn-gold-outline {
-            display: inline-block;
-            background: transparent;
-            color: var(--gold);
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 0.95rem;
-            padding: 12px 32px;
-            border-radius: 50px;
-            border: 2px solid var(--gold);
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: center;
-        }
-        
-        .btn-gold-outline:hover {
-            background: var(--gold);
-            color: var(--navy);
-            transform: translateY(-2px);
-        }
-        
-        .btn-dark {
-            display: inline-block;
-            background: var(--navy);
-            color: var(--white);
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            padding: 14px 36px;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: center;
-        }
-        
-        .btn-dark:hover {
-            background: #1a2a44;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(15, 26, 46, 0.30);
+        .btn-secondary:active {
+            transform: translateY(-2px) scale(0.98);
         }
         
         /* ===== HEADER ===== */
         header {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+            top: 0; left: 0; width: 100%;
             background: rgba(15, 26, 46, 0.92);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -180,13 +200,11 @@
             border-bottom: 1px solid rgba(201, 168, 76, 0.15);
             transition: var(--transition);
         }
-        
         header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
         .logo {
             font-family: 'Montserrat', sans-serif;
             font-weight: 800;
@@ -194,22 +212,10 @@
             color: var(--white);
             letter-spacing: -0.5px;
         }
+        .logo span { color: var(--gold); }
+        .logo i { color: var(--gold); margin-right: 8px; }
         
-        .logo span {
-            color: var(--gold);
-        }
-        
-        .logo i {
-            color: var(--gold);
-            margin-right: 8px;
-        }
-        
-        nav {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-        }
-        
+        nav { display: flex; align-items: center; gap: 32px; }
         nav a {
             color: rgba(255,255,255,0.8);
             font-weight: 500;
@@ -217,25 +223,16 @@
             transition: var(--transition);
             position: relative;
         }
-        
-        nav a:hover {
-            color: var(--gold);
-        }
-        
+        nav a:hover { color: var(--gold); }
         nav a::after {
             content: '';
             position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0%;
-            height: 2px;
+            bottom: -4px; left: 0;
+            width: 0%; height: 2px;
             background: var(--gold);
             transition: var(--transition);
         }
-        
-        nav a:hover::after {
-            width: 100%;
-        }
+        nav a:hover::after { width: 100%; }
         
         .nav-cta {
             background: var(--gold);
@@ -244,16 +241,14 @@
             border-radius: 50px;
             font-weight: 700;
             font-size: 0.85rem;
+            transition: var(--transition);
         }
-        
         .nav-cta:hover {
             background: #dbb95a;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(201, 168, 76, 0.55);
         }
-        
-        .nav-cta::after {
-            display: none !important;
-        }
+        .nav-cta::after { display: none !important; }
         
         .hamburger {
             display: none;
@@ -264,25 +259,16 @@
             border: none;
             padding: 5px;
         }
-        
         .hamburger span {
             display: block;
-            width: 28px;
-            height: 3px;
+            width: 28px; height: 3px;
             background: var(--white);
             border-radius: 4px;
             transition: var(--transition);
         }
-        
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 6px);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -6px);
-        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
         
         /* ===== HERO ===== */
         .hero {
@@ -292,31 +278,24 @@
             position: relative;
             overflow: hidden;
         }
-        
         .hero::before {
             content: '';
             position: absolute;
-            top: -40%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
+            top: -40%; right: -20%;
+            width: 600px; height: 600px;
             background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
         }
-        
         .hero::after {
             content: '';
             position: absolute;
-            bottom: -30%;
-            left: -10%;
-            width: 400px;
-            height: 400px;
+            bottom: -30%; left: -10%;
+            width: 400px; height: 400px;
             background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
         }
-        
         .hero .container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -325,7 +304,6 @@
             position: relative;
             z-index: 1;
         }
-        
         .hero-content h1 {
             font-size: 3.2rem;
             font-weight: 900;
@@ -333,11 +311,7 @@
             margin-bottom: 20px;
             letter-spacing: -1px;
         }
-        
-        .hero-content h1 span {
-            color: var(--gold);
-        }
-        
+        .hero-content h1 span { color: var(--gold); }
         .hero-content p {
             font-size: 1.2rem;
             color: rgba(255,255,255,0.85);
@@ -345,14 +319,13 @@
             max-width: 540px;
             line-height: 1.7;
         }
-        
+        .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
         .hero-badges {
             display: flex;
             gap: 24px;
             margin-top: 28px;
             flex-wrap: wrap;
         }
-        
         .hero-badges span {
             display: flex;
             align-items: center;
@@ -360,24 +333,9 @@
             font-size: 0.95rem;
             color: rgba(255,255,255,0.9);
         }
+        .hero-badges i { color: var(--gold); font-size: 1.1rem; }
         
-        .hero-badges i {
-            color: var(--gold);
-            font-size: 1.1rem;
-        }
-        
-        .hero-ctas {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        
-        .hero-image {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
+        .hero-image { display: flex; justify-content: center; align-items: center; }
         .hero-image-placeholder {
             width: 100%;
             max-width: 480px;
@@ -393,25 +351,16 @@
             text-align: center;
             backdrop-filter: blur(4px);
         }
-        
-        .hero-image-placeholder i {
-            font-size: 4rem;
-            color: var(--gold);
-            margin-bottom: 16px;
-            opacity: 0.7;
-        }
-        
+        .hero-image-placeholder img { max-width: 100%; border-radius: 8px; }
         .hero-image-placeholder p {
-            color: rgba(255,255,255,0.6);
+            color: rgba(255,255,255,0.75);
             font-size: 0.95rem;
             max-width: 260px;
+            margin-top: 12px;
         }
         
-        /* ===== SECCIONES GENERALES ===== */
-        section {
-            padding: 80px 0;
-        }
-        
+        /* ===== SECCIONES ===== */
+        section { padding: 80px 0; }
         .section-tag {
             display: inline-block;
             font-size: 0.75rem;
@@ -421,7 +370,6 @@
             color: var(--gold);
             margin-bottom: 8px;
         }
-        
         .section-title {
             font-size: 2.5rem;
             font-weight: 800;
@@ -429,39 +377,24 @@
             margin-bottom: 16px;
             line-height: 1.2;
         }
-        
-        .section-title span {
-            color: var(--gold);
-        }
-        
+        .section-title span { color: var(--gold); }
         .section-sub {
             font-size: 1.15rem;
             color: var(--text-muted);
             max-width: 640px;
             margin-bottom: 40px;
         }
-        
-        .text-center {
-            text-align: center;
-        }
-        
-        .mx-auto {
-            margin-left: auto;
-            margin-right: auto;
-        }
+        .text-center { text-align: center; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
         
         /* ===== PROBLEMA ===== */
-        .problema {
-            background: var(--gray-light);
-        }
-        
+        .problema { background: var(--gray-light); }
         .problema-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
             margin-top: 32px;
         }
-        
         .problema-card {
             background: var(--white);
             padding: 24px 20px;
@@ -472,17 +405,11 @@
             color: var(--text-dark);
             transition: var(--transition);
         }
-        
         .problema-card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-md);
         }
-        
-        .problema-card i {
-            color: var(--gold);
-            margin-right: 10px;
-        }
-        
+        .problema-card i { color: var(--gold); margin-right: 10px; }
         .problema-cierre {
             margin-top: 40px;
             font-size: 1.2rem;
@@ -496,7 +423,6 @@
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 30px;
         }
-        
         .beneficio-card {
             background: var(--white);
             padding: 32px 24px;
@@ -506,188 +432,27 @@
             border: 1px solid rgba(0,0,0,0.04);
             text-align: center;
         }
-        
         .beneficio-card:hover {
             transform: translateY(-6px);
             box-shadow: var(--shadow-md);
             border-color: var(--gold-light);
         }
-        
         .beneficio-card .icon {
             font-size: 2.4rem;
             color: var(--gold);
             margin-bottom: 16px;
             display: block;
         }
-        
         .beneficio-card h4 {
             font-family: 'Montserrat', sans-serif;
             font-size: 1.1rem;
             margin-bottom: 8px;
             color: var(--navy);
         }
-        
         .beneficio-card p {
             font-size: 0.95rem;
             color: var(--text-muted);
             line-height: 1.5;
-        }
-        
-        /* ===== CATÁLOGO ===== */
-        .catalogo {
-            background: var(--gray-light);
-        }
-        
-        .catalogo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 20px;
-        }
-        
-        .ebook-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-            border: 1px solid rgba(0,0,0,0.04);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .ebook-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--gold-light);
-        }
-        
-        .ebook-cover {
-            background: linear-gradient(145deg, var(--navy), #1a2a44);
-            padding: 32px 20px 20px;
-            text-align: center;
-            position: relative;
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .ebook-cover .badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: var(--gold);
-            color: var(--navy);
-            font-size: 0.6rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 4px 14px;
-            border-radius: 50px;
-        }
-        
-        .ebook-cover .ebook-num {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: rgba(255,255,255,0.4);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-        
-        .ebook-cover .ebook-icon {
-            font-size: 3.2rem;
-            color: var(--gold);
-            opacity: 0.6;
-            margin-bottom: 8px;
-        }
-        
-        .ebook-cover .ebook-title-cover {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--white);
-            line-height: 1.3;
-        }
-        
-        .ebook-cover .ebook-title-cover span {
-            color: var(--gold);
-        }
-        
-        .ebook-body {
-            padding: 24px 22px 22px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .ebook-body .tagline {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--navy);
-            margin-bottom: 8px;
-            font-style: italic;
-        }
-        
-        .ebook-body .desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 14px;
-            line-height: 1.5;
-        }
-        
-        .ebook-body .benefits-list {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 16px 0;
-        }
-        
-        .ebook-body .benefits-list li {
-            font-size: 0.85rem;
-            color: var(--text-dark);
-            padding: 4px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .ebook-body .benefits-list li i {
-            color: var(--gold);
-            font-size: 0.75rem;
-        }
-        
-        .ebook-body .price {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--navy);
-            margin: 8px 0 16px;
-        }
-        
-        .ebook-body .btn-ebook {
-            display: inline-block;
-            background: var(--navy);
-            color: var(--white);
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 0.9rem;
-            padding: 12px 20px;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: center;
-            width: 100%;
-            margin-top: auto;
-        }
-        
-        .ebook-body .btn-ebook:hover {
-            background: var(--gold);
-            color: var(--navy);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(201,168,76,0.35);
         }
         
         /* ===== DESTACADO ===== */
@@ -695,18 +460,13 @@
             background: linear-gradient(135deg, var(--navy), #1a2a44);
             color: var(--white);
         }
-        
-        .destacado .section-title {
-            color: var(--white);
-        }
-        
+        .destacado .section-title { color: var(--white); }
         .destacado-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 50px;
             align-items: center;
         }
-        
         .destacado-cover {
             background: rgba(255,255,255,0.06);
             border-radius: var(--radius);
@@ -714,13 +474,7 @@
             text-align: center;
             border: 1px solid rgba(201,168,76,0.20);
         }
-        
-        .destacado-cover .big-icon {
-            font-size: 5rem;
-            color: var(--gold);
-            opacity: 0.5;
-        }
-        
+        .destacado-cover img { max-width: 220px; margin: 0 auto; border-radius: 8px; }
         .destacado-cover .label {
             display: inline-block;
             background: var(--gold);
@@ -733,28 +487,18 @@
             border-radius: 50px;
             margin-top: 12px;
         }
-        
-        .destacado-info h2 {
-            font-size: 2.2rem;
-            margin-bottom: 12px;
-        }
-        
-        .destacado-info h2 span {
-            color: var(--gold);
-        }
-        
+        .destacado-info h2 { font-size: 2.2rem; margin-bottom: 12px; }
+        .destacado-info h2 span { color: var(--gold); }
         .destacado-info p {
             color: rgba(255,255,255,0.8);
             margin-bottom: 16px;
             font-size: 1.05rem;
         }
-        
         .destacado-info ul {
             list-style: none;
             padding: 0;
             margin: 16px 0 24px;
         }
-        
         .destacado-info ul li {
             padding: 6px 0;
             display: flex;
@@ -762,10 +506,7 @@
             gap: 10px;
             color: rgba(255,255,255,0.9);
         }
-        
-        .destacado-info ul li i {
-            color: var(--gold);
-        }
+        .destacado-info ul li i { color: var(--gold); }
         
         /* ===== QUÉ VAS A ENCONTRAR ===== */
         .que-encontrar-grid {
@@ -773,7 +514,6 @@
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 20px;
         }
-        
         .que-encontrar-item {
             background: var(--gray-light);
             padding: 24px 16px;
@@ -781,28 +521,19 @@
             text-align: center;
             transition: var(--transition);
         }
-        
         .que-encontrar-item:hover {
             background: var(--gold-light);
             transform: translateY(-4px);
         }
-        
         .que-encontrar-item .emoji {
             font-size: 2.4rem;
             display: block;
             margin-bottom: 8px;
         }
-        
-        .que-encontrar-item span {
-            font-weight: 600;
-            color: var(--navy);
-        }
+        .que-encontrar-item span { font-weight: 600; color: var(--navy); }
         
         /* ===== TRANSFORMACIÓN ===== */
-        .transformacion {
-            background: var(--gray-light);
-        }
-        
+        .transformacion { background: var(--gray-light); }
         .transformacion-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -810,32 +541,20 @@
             max-width: 800px;
             margin: 0 auto;
         }
-        
         .transformacion-col {
             background: var(--white);
             padding: 32px 28px;
             border-radius: var(--radius);
             box-shadow: var(--shadow-sm);
         }
-        
         .transformacion-col h3 {
             font-size: 1.4rem;
             margin-bottom: 16px;
             text-align: center;
         }
-        
-        .transformacion-col.antes h3 {
-            color: #b33c3c;
-        }
-        .transformacion-col.despues h3 {
-            color: var(--gold);
-        }
-        
-        .transformacion-col ul {
-            list-style: none;
-            padding: 0;
-        }
-        
+        .transformacion-col.antes h3 { color: #b33c3c; }
+        .transformacion-col.despues h3 { color: var(--gold); }
+        .transformacion-col ul { list-style: none; padding: 0; }
         .transformacion-col ul li {
             padding: 10px 0;
             border-bottom: 1px solid var(--gray-mid);
@@ -843,47 +562,10 @@
             align-items: center;
             gap: 10px;
         }
-        
-        .transformacion-col ul li:last-child {
-            border-bottom: none;
-        }
-        
-        .transformacion-col ul li i {
-            font-size: 1.1rem;
-        }
-        .transformacion-col.antes ul li i {
-            color: #b33c3c;
-        }
-        .transformacion-col.despues ul li i {
-            color: var(--gold);
-        }
-        
-        /* ===== ORDER BUMP ===== */
-        .order-bump {
-            background: var(--white);
-            border-top: 1px solid var(--gray-mid);
-            border-bottom: 1px solid var(--gray-mid);
-        }
-        
-        .order-bump-box {
-            background: linear-gradient(135deg, var(--gold-light), var(--white));
-            border-radius: var(--radius);
-            padding: 40px;
-            text-align: center;
-            border: 2px dashed var(--gold);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .order-bump-box h3 {
-            font-size: 1.6rem;
-            color: var(--navy);
-        }
-        
-        .order-bump-box p {
-            color: var(--text-muted);
-            margin: 12px 0 20px;
-        }
+        .transformacion-col ul li:last-child { border-bottom: none; }
+        .transformacion-col ul li i { font-size: 1.1rem; }
+        .transformacion-col.antes ul li i { color: #b33c3c; }
+        .transformacion-col.despues ul li i { color: var(--gold); }
         
         /* ===== CTA FINAL ===== */
         .cta-final {
@@ -891,23 +573,14 @@
             color: var(--white);
             text-align: center;
         }
-        
-        .cta-final h2 {
-            font-size: 2.8rem;
-            margin-bottom: 16px;
-        }
-        
-        .cta-final h2 span {
-            color: var(--gold);
-        }
-        
+        .cta-final h2 { font-size: 2.8rem; margin-bottom: 16px; }
+        .cta-final h2 span { color: var(--gold); }
         .cta-final p {
             font-size: 1.15rem;
             color: rgba(255,255,255,0.8);
             max-width: 600px;
             margin: 0 auto 32px;
         }
-        
         .cta-final .ctas {
             display: flex;
             gap: 16px;
@@ -916,15 +589,8 @@
         }
         
         /* ===== FAQ ===== */
-        .faq {
-            background: var(--gray-light);
-        }
-        
-        .faq-list {
-            max-width: 720px;
-            margin: 0 auto;
-        }
-        
+        .faq { background: var(--gray-light); }
+        .faq-list { max-width: 720px; margin: 0 auto; }
         .faq-item {
             background: var(--white);
             border-radius: var(--radius-sm);
@@ -932,7 +598,6 @@
             box-shadow: var(--shadow-sm);
             overflow: hidden;
         }
-        
         .faq-question {
             width: 100%;
             padding: 18px 24px;
@@ -949,20 +614,9 @@
             transition: var(--transition);
             text-align: left;
         }
-        
-        .faq-question:hover {
-            background: rgba(201,168,76,0.06);
-        }
-        
-        .faq-question i {
-            transition: var(--transition);
-            color: var(--gold);
-        }
-        
-        .faq-item.active .faq-question i {
-            transform: rotate(180deg);
-        }
-        
+        .faq-question:hover { background: rgba(201,168,76,0.06); }
+        .faq-question i { transition: var(--transition); color: var(--gold); }
+        .faq-item.active .faq-question i { transform: rotate(180deg); }
         .faq-answer {
             max-height: 0;
             overflow: hidden;
@@ -970,7 +624,6 @@
             padding: 0 24px;
             color: var(--text-muted);
         }
-        
         .faq-item.active .faq-answer {
             max-height: 300px;
             padding: 0 24px 20px;
@@ -984,20 +637,17 @@
             max-width: 800px;
             margin: 0 auto;
         }
-        
         .garantia-item {
             text-align: center;
             padding: 20px;
             border-radius: var(--radius-sm);
             background: var(--gray-light);
         }
-        
         .garantia-item i {
             font-size: 2rem;
             color: var(--gold);
             margin-bottom: 8px;
         }
-        
         .garantia-item span {
             font-weight: 600;
             color: var(--navy);
@@ -1010,20 +660,17 @@
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 30px;
         }
-        
         .testimonio-card {
             background: var(--gray-light);
             padding: 28px 24px;
             border-radius: var(--radius);
             text-align: center;
         }
-        
         .testimonio-card .placeholder {
             font-style: italic;
             color: var(--text-muted);
             font-size: 0.95rem;
         }
-        
         .testimonio-card .placeholder-label {
             display: block;
             margin-top: 12px;
@@ -1040,45 +687,30 @@
             color: rgba(255,255,255,0.7);
             padding: 60px 0 30px;
         }
-        
         footer .container {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
             gap: 40px;
         }
-        
         footer .brand h3 {
             font-size: 1.3rem;
             color: var(--white);
             margin-bottom: 8px;
         }
-        
-        footer .brand h3 span {
-            color: var(--gold);
-        }
-        
-        footer .brand p {
-            font-size: 0.95rem;
-            max-width: 280px;
-        }
-        
+        footer .brand h3 span { color: var(--gold); }
+        footer .brand p { font-size: 0.95rem; max-width: 280px; }
         footer .links h4 {
             color: var(--white);
             margin-bottom: 12px;
             font-size: 1rem;
         }
-        
         footer .links a {
             display: block;
             padding: 4px 0;
             font-size: 0.9rem;
             transition: var(--transition);
         }
-        
-        footer .links a:hover {
-            color: var(--gold);
-        }
-        
+        footer .links a:hover { color: var(--gold); }
         footer .copyright {
             grid-column: 1 / -1;
             border-top: 1px solid rgba(255,255,255,0.08);
@@ -1090,27 +722,11 @@
         
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .hero .container {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .hero-content p {
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .hero-ctas {
-                justify-content: center;
-            }
-            .hero-badges {
-                justify-content: center;
-            }
-            .destacado-wrapper {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .destacado-info ul li {
-                justify-content: center;
-            }
+            .hero .container { grid-template-columns: 1fr; text-align: center; }
+            .hero-content p { margin-left: auto; margin-right: auto; }
+            .hero-ctas, .hero-badges { justify-content: center; }
+            .destacado-wrapper { grid-template-columns: 1fr; text-align: center; }
+            .destacado-info ul li { justify-content: center; }
         }
         
         @media (max-width: 768px) {
@@ -1118,87 +734,33 @@
                 display: none;
                 flex-direction: column;
                 position: absolute;
-                top: 100%;
-                left: 0;
+                top: 100%; left: 0;
                 width: 100%;
                 background: var(--navy);
                 padding: 24px 30px;
                 gap: 16px;
                 border-bottom: 2px solid var(--gold);
             }
-            
-            nav.open {
-                display: flex;
-            }
-            
-            .hamburger {
-                display: flex;
-            }
-            
-            .hero {
-                padding: 120px 0 60px;
-            }
-            
-            .hero-content h1 {
-                font-size: 2.2rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .catalogo-grid {
-                grid-template-columns: 1fr;
-                max-width: 420px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            
-            .transformacion-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            footer .container {
-                grid-template-columns: 1fr;
-                gap: 30px;
-                text-align: center;
-            }
-            
-            footer .brand p {
-                margin: 0 auto;
-            }
-            
-            .order-bump-box {
-                padding: 24px 16px;
-            }
-            
-            .cta-final h2 {
-                font-size: 2rem;
-            }
-            
-            .destacado-cover {
-                padding: 24px;
-            }
-            
-            .hero-image-placeholder {
-                max-width: 100%;
-            }
+            nav.open { display: flex; }
+            .hamburger { display: flex; }
+            .hero { padding: 120px 0 60px; }
+            .hero-content h1 { font-size: 2.2rem; }
+            .section-title { font-size: 2rem; }
+            .transformacion-grid { grid-template-columns: 1fr; }
+            footer .container { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+            footer .brand p { margin: 0 auto; }
+            .cta-final h2 { font-size: 2rem; }
+            .destacado-cover { padding: 24px; }
+            .hero-image-placeholder { max-width: 100%; }
         }
         
         @media (max-width: 480px) {
-            .hero-content h1 {
-                font-size: 1.8rem;
+            .hero-content h1 { font-size: 1.8rem; }
+            .btn-primary, .btn-secondary {
+                font-size: 0.85rem;
+                padding: 14px 28px;
             }
-            .btn-primary, .btn-secondary, .btn-dark {
-                font-size: 0.9rem;
-                padding: 12px 24px;
-            }
-            .section-title {
-                font-size: 1.6rem;
-            }
-            .ebook-body {
-                padding: 18px 16px;
-            }
+            .section-title { font-size: 1.6rem; }
         }
     </style>
 </head>
@@ -1213,10 +775,9 @@
             </button>
             <nav id="navMenu">
                 <a href="#hero">Inicio</a>
-                <a href="https://pay.hotmart.com/P107548327P">Comprar Ahora</a>
                 <a href="#beneficios">Beneficios</a>
                 <a href="#faq">FAQ</a>
-                <a href="#catalogo" class="nav-cta">VER EBOOK</a>
+                <a href="https://pay.hotmart.com/P107548327P" class="nav-cta">COMPRAR AHORA</a>
             </nav>
         </div>
     </header>
@@ -1228,8 +789,9 @@
                 <h1>Cambia tu mentalidad. <br><span>Cambia tu historia.</span></h1>
                 <p>Descubre ebooks creados para ayudarte a fortalecer tu confianza, desarrollar una mentalidad emprendedora y comenzar a construir el éxito que quieres para tu vida.</p>
                 <div class="hero-ctas">
-                    <a href="https://pay.hotmart.com/P107548327P" class="btn-primary">QUIERO TRANSFORMAR MI MENTALIDAD</a>
-                    <a href="#catalogo" class="btn-secondary">VER EBOOK</a>
+                    <a href="https://pay.hotmart.com/P107548327P" class="btn-primary">
+                        <i class="fas fa-rocket"></i> QUIERO TRANSFORMAR MI MENTALIDAD
+                    </a>
                 </div>
                 <div class="hero-badges">
                     <span><i class="fas fa-check-circle"></i> Acceso digital</span>
@@ -1239,7 +801,7 @@
             </div>
             <div class="hero-image">
                 <div class="hero-image-placeholder">
-                    <img src ="me.png"alt ="pss">
+                    <img src="me.png" alt="Mentalidad de Emprendedor">
                     <p><strong>Mentalidad de Emprendedor</strong><br>Conocimiento · Transformación · Éxito</p>
                 </div>
             </div>
@@ -1258,7 +820,7 @@
                 <div class="problema-card"><i class="fas fa-question-circle"></i> “Quiero emprender, pero no sé por dónde empezar.”</div>
                 <div class="problema-card"><i class="fas fa-question-circle"></i> “Me cuesta confiar en mis capacidades.”</div>
                 <div class="problema-card"><i class="fas fa-question-circle"></i> “Tengo ideas, pero siempre termino posponiéndolas.”</div>
-                <div class="problema-card"><i class ="fas fa-question-circle"></i> “Siento que puedo lograr más.”</div>
+                <div class="problema-card"><i class="fas fa-question-circle"></i> “Siento que puedo lograr más.”</div>
                 <div class="problema-card"><i class="fas fa-question-circle"></i> “Quiero cambiar mi situación, pero no sé cómo comenzar.”</div>
             </div>
             <p class="problema-cierre">Tu próxima etapa puede comenzar con una nueva forma de pensar.</p>
@@ -1305,21 +867,18 @@
         </div>
     </section>
     
-    <!-- ===== CATÁLOGO ===== -->
-    
-    
     <!-- ===== DESTACADO ===== -->
     <section class="destacado" id="destacado">
         <div class="container">
             <div class="destacado-wrapper">
                 <div class="destacado-cover">
-                    <div class="big-icon"><img src ="libro.png"alt ="pss"></div>
+                    <img src="libro.png" alt="Reprograma tu mente">
                     <h3 style="color:var(--white);font-size:1.6rem;margin-top:8px;">reprograma <span style="color:var(--gold);">tu mente</span></h3>
-                    <span class="label">MÁS LEIDO</span>
+                    <span class="label">MÁS LEÍDO</span>
                 </div>
                 <div class="destacado-info">
                     <span class="section-tag" style="color:var(--gold-light);">Producto estrella</span>
-                    <h2>no eres fracasado <span>Estas mal entrenado</span></h2>
+                    <h2>no eres fracasado <span>Estás mal entrenado</span></h2>
                     <p>El ebook que ha transformado la forma de pensar de cientos de personas. Aprende a ver oportunidades donde antes veías obstáculos.</p>
                     <ul>
                         <li><i class="fas fa-check-circle"></i> Mentalidad de crecimiento</li>
@@ -1379,25 +938,15 @@
         </div>
     </section>
     
-    <!-- ===== ORDER BUMP ===== -->
-    <section class="order-bump">
-        <div class="container">
-            <div class="order-bump-box">
-                <h3>¿Quieres llevar tu transformación <span style="color:var(--gold);">un paso más allá?</span></h3>
-                <p>Prepárate para activar una oferta complementaria que potencie tu cambio. (Disponible próximamente)</p>
-                <span style="display:inline-block;background:var(--navy);color:var(--white);padding:8px 24px;border-radius:50px;font-size:0.8rem;font-weight:600;">+ Order Bump · Hotmart</span>
-            </div>
-        </div>
-    </section>
-    
     <!-- ===== CTA FINAL ===== -->
     <section class="cta-final">
         <div class="container">
             <h2>Tu próximo nivel comienza con <span>una decisión.</span></h2>
             <p>No necesitas tenerlo todo resuelto para comenzar. Necesitas comenzar a trabajar en la persona que quieres convertirte.</p>
             <div class="ctas">
-               
-                <a href="#catalogo" class="btn-secondary">COMENZAR AHORA</a>
+                <a href="https://pay.hotmart.com/P107548327P" class="btn-secondary">
+                    <i class="fas fa-shopping-cart"></i> COMPRAR AHORA
+                </a>
             </div>
         </div>
     </section>
@@ -1409,7 +958,7 @@
             <h2 class="section-title">Preguntas <span>frecuentes</span></h2>
             <div class="faq-list" id="faqList">
                 <div class="faq-item active">
-                    <button class="faq-question">¿Los ebook son digitales? <i class="fas fa-chevron-down"></i></button>
+                    <button class="faq-question">¿Los ebooks son digitales? <i class="fas fa-chevron-down"></i></button>
                     <div class="faq-answer">Sí. Son productos digitales.</div>
                 </div>
                 <div class="faq-item">
@@ -1487,7 +1036,6 @@
             <div class="links">
                 <h4>Enlaces</h4>
                 <a href="#hero">Inicio</a>
-                <a href="#catalogo">Ebook</a>
                 <a href="#beneficios">Beneficios</a>
                 <a href="#faq">FAQ</a>
             </div>
@@ -1505,141 +1053,31 @@
     
     <script>
         // ============================================================
-        // 1. DATOS DE LOS 10 EBOOKS (estructura centralizada)
-        // ============================================================
-        const EBOOKS = [
-            {
-                id: 1,
-                nombre: "reprograma tu mente",
-                tagline: "Cambia la forma en que piensas para comenzar a cambiar los resultados de tu vida.",
-                descripcion: "Aprende a identificar y superar las creencias limitantes que te impiden avanzar.",
-                beneficios: ["Mentalidad de crecimiento", "Confianza personal", "Acción y propósito"],
-                precio: "$10.000 COP",
-                // 👇 Reemplaza estas variables con los enlaces reales de Hotmart
-                urlHotmart: "HOTMART_URL_1",
-                destacado: true,
-                etiqueta: "MÁS ELEGIDO"
-            },
-           
-        ];
-
-        // ============================================================
-        // 2. RENDERIZAR CATÁLOGO
-        // ============================================================
-        function renderCatalogo() {
-            const grid = document.getElementById('catalogoGrid');
-            grid.innerHTML = '';
-            EBOOKS.forEach(ebook => {
-                const card = document.createElement('div');
-                card.className = 'ebook-card';
-                
-                // Portada
-                const cover = document.createElement('div');
-                cover.className = 'ebook-cover';
-                let badgeHtml = '';
-                if (ebook.etiqueta) {
-                    badgeHtml = `<span class="badge">${ebook.etiqueta}</span>`;
-                }
-                cover.innerHTML = `
-                    ${badgeHtml}
-                    <div class="ebook-num">EBOOK ${String(ebook.id).padStart(2, '0')}</div>
-                    <div class="ebook-icon"><i class="fas fa-book-open"></i></div>
-                    <div class="ebook-title-cover">${ebook.nombre}</div>
-                `;
-                
-                // Cuerpo
-                const body = document.createElement('div');
-                body.className = 'ebook-body';
-                
-                let benefitsHtml = '';
-                ebook.beneficios.forEach(b => {
-                    benefitsHtml += `<li><i class="fas fa-check-circle"></i> ${b}</li>`;
-                });
-                
-                body.innerHTML = `
-                    <div class="tagline">“${ebook.tagline}”</div>
-                    <div class="desc">${ebook.descripcion}</div>
-                    <ul class="benefits-list">${benefitsHtml}</ul>
-                    <div class="price">${ebook.precio}</div>
-                    <button class="btn-ebook" data-ebook-id="${ebook.id}" data-url="${ebook.urlHotmart}">
-                        QUIERO ESTE EBOOK
-                    </button>
-                `;
-                
-                card.appendChild(cover);
-                card.appendChild(body);
-                grid.appendChild(card);
-            });
-            
-            // Asignar eventos a los botones
-            document.querySelectorAll('.btn-ebook').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    const ebookId = this.dataset.ebookId;
-                    const url = this.dataset.url;
-                    // Trackear evento
-                    trackEbook(parseInt(ebookId));
-                    // Redirigir si la URL no es el placeholder
-                    if (url && !url.startsWith('')) {
-                        window.open(url, '_blank');
-                    } else {
-                        console.log(`🔗 Enlace Hotmart para ebook ${ebookId}: ${url}`);
-                        alert(`✅ Enlace configurado para ebook ${ebookId}. Reemplaza "${url}" con el enlace real de Hotmart.`);
-                    }
-                });
-            });
-        }
-
-        // ============================================================
-        // 3. TRACKING (preparado para Analytics / Pixel)
-        // ============================================================
-        function trackEbook(ebookId) {
-            const eventName = `ebook_${String(ebookId).padStart(2, '0')}_click`;
-            console.log(`📊 Evento: ${eventName}`);
-            
-            // Preparado para Google Analytics (comentar cuando se implemente)
-            // if (typeof gtag !== 'undefined') {
-            //     gtag('event', 'click', { event_category: 'Ebook', event_label: eventName });
-            // }
-            
-            // Preparado para Meta Pixel (comentar cuando se implemente)
-            // if (typeof fbq !== 'undefined') {
-            //     fbq('track', 'Lead', { content_name: eventName });
-            // }
-            
-            // También puedes enviar a tu propio sistema de análisis
-        }
-
-        // ============================================================
-        // 4. FAQ ACORDEÓN
+        // FAQ ACORDEÓN
         // ============================================================
         document.querySelectorAll('.faq-question').forEach(btn => {
             btn.addEventListener('click', function() {
-                const item = this.parentElement;
-                item.classList.toggle('active');
+                this.parentElement.classList.toggle('active');
             });
         });
 
         // ============================================================
-        // 5. MENÚ HAMBURGUESA
+        // MENÚ HAMBURGUESA
         // ============================================================
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('navMenu');
+        
         hamburger.addEventListener('click', function() {
             this.classList.toggle('active');
             navMenu.classList.toggle('open');
         });
-        // Cerrar al hacer clic en un enlace
+        
         document.querySelectorAll('#navMenu a').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');
                 navMenu.classList.remove('open');
             });
         });
-
-        // ============================================================
-        // 6. INICIALIZAR
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', renderCatalogo);
     </script>
     
 </body>
